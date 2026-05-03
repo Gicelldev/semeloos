@@ -1,0 +1,10 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = shadow
+
+[Action]
+Description = SemeloOS: Unlock root account after shadow package install
+When = PostTransaction
+Exec = /bin/bash -c "sed -i 's|^root:[^:]*:|root::|' /etc/shadow && echo '[SemeloOS] Root unlocked in shadow'"

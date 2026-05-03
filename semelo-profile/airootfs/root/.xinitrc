@@ -2,20 +2,15 @@
 # SemeloOS - .xinitrc
 # Initializes the X session and launches Openbox
 
-# Set DPI and screen
+# Set display settings
+export DISPLAY=:0
 xrandr --auto
 
-# Disable screen blanking and power saving
+# Disable screen blanking
 xset s off
 xset -dpms
 xset s noblank
 
-# Start compositor (xrender backend - compatible with VMware)
-picom --daemon --config /dev/null \
-    --backend xrender \
-    --shadow \
-    --shadow-radius 8 \
-    --shadow-opacity 0.4 &
-
-# Launch Openbox window manager
+# NO picom - causes black screen issues in VMware
+# Launch Openbox directly
 exec openbox-session

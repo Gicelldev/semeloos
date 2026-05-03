@@ -68,7 +68,12 @@ jobs:
           echo "=== root shadow entry ==="
           cat /tmp/semelo-profile/airootfs/etc/shadow
 
-          # ── Step 8: Show final profile structure
+          # ── Step 8: Ensure customize_airootfs.sh is executable
+          chmod +x /tmp/semelo-profile/airootfs/root/customize_airootfs.sh
+          echo "=== customize_airootfs.sh is ready ==="
+          ls -la /tmp/semelo-profile/airootfs/root/
+
+          # ── Step 9: Show final profile structure
           echo "=== Final profile ==="
           ls /tmp/semelo-profile/
           echo "=== airootfs/etc/systemd/system/multi-user.target.wants ==="
@@ -80,6 +85,10 @@ jobs:
           mkarchiso -v -w /tmp/work -o /tmp/out /tmp/semelo-profile
           echo "Build complete!"
           ls -lh /tmp/out/
+
+          # Diagnostic only: show root shadow AFTER build (for debugging)
+          echo "=== Root shadow in built chroot ==="
+          grep ^root /tmp/work/x86_64/airootfs/etc/shadow 2>/dev/null || echo "(work dir not accessible)"
 
       - name: Upload ISO Artifact
         uses: actions/upload-artifact@v4
